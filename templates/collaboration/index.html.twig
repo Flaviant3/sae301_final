@@ -1,0 +1,95 @@
+{# templates/collaboration/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Collaboration{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3799;
+            margin: 20px 0;
+        }
+
+        h2 {
+            color: #f368e0;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffffff;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        li:hover {
+            transform: scale(1.05);
+        }
+
+        p {
+            margin: 10px 0;
+            color: #777;
+        }
+
+        /* Exemple de style pour les canaux de discussion */
+        .submission-channel {
+            background-color: #78e08f; /* Mint */
+            color: #2d3436;
+        }
+
+        .evaluation-channel {
+            background-color: #f9ca24; /* Sunflower Yellow */
+            color: #2d3436;
+        }
+
+        /* Ajoutez d'autres styles au besoin */
+    </style>
+
+    <div>
+        <h1>Collaboration</h1>
+
+        {# Liste des canaux de discussion pour les rendus #}
+        <h2>Canaux de discussion pour les rendus :</h2>
+        {% if submissionChannels is defined and submissionChannels|length > 0 %}
+            <ul>
+                {% for channel in submissionChannels %}
+                    <li class="submission-channel">
+                        {{ channel.name }} - Rendu : {{ channel.submissionTitle }}
+                        <p>{{ channel.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun canal de discussion disponible pour les rendus pour le moment.</p>
+        {% endif %}
+
+        {# Liste des canaux de discussion pour les évaluations #}
+        <h2>Canaux de discussion pour les évaluations :</h2>
+        {% if evaluationChannels is defined and evaluationChannels|length > 0 %}
+            <ul>
+                {% for channel in evaluationChannels %}
+                    <li class="evaluation-channel">
+                        {{ channel.name }} - Évaluation : {{ channel.evaluationTitle }}
+                        <p>{{ channel.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun canal de discussion disponible pour les évaluations pour le moment.</p>
+        {% endif %}
+    </div>
+{% endblock %}

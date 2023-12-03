@@ -1,0 +1,176 @@
+{# templates/recherche/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+
+        #searchContainer {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #ccc;
+        }
+
+        #searchResults {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .resultSquare {
+            width: calc(25% - 20px); /* 25% pour 4 colonnes, gap de 20px entre les éléments */
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="searchContainer">
+        {# Utilisation des variables term et date transmises depuis la page d'accueil #}
+        <input type="text" id="searchInput" placeholder="Rechercher..." style="border-radius: 10px; padding: 10px; width: 70%;" value="{{ term ?? '' }}">
+        <button id="searchButton" style="border-radius: 50%; padding: 10px; background-color: #333; color: #fff;">
+            <span>&#128269;</span>
+        </button>
+    </div>
+
+    <!-- Conteneur pour les résultats de recherche en temps réel -->
+    <div id="searchResults"></div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Rendus et évaluations</h2>
+            <ul id="modalList"></ul>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResultsContainer = document.getElementById('searchResults');
+        const modal = document.getElementById('myModal');
+        const modalList = document.getElementById('modalList');
+
+        // Fonction pour effectuer la recherche
+        function performSearch() {
+            const searchQuery = searchInput.value;
+
+            // Effectue la requête AJAX vers le point de terminaison Symfony
+            fetch(`/search?term=${searchQuery}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Efface les résultats précédents
+                    searchResultsContainer.innerHTML = '';
+
+                    // Affiche les nouveaux résultats
+                    data.forEach(result => {
+                        const resultElement = document.createElement('div');
+                        resultElement.classList.add('resultSquare');
+                        resultElement.textContent = result;
+                        resultElement.addEventListener('click', () => openModal(result));
+                        searchResultsContainer.appendChild(resultElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching search results:', error));
+        }
+
+        // Fonction pour afficher les résultats par défaut lors du chargement de la page
+        function displayDefaultResults() {
+            fetch(`/search`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(result => {
+                        const resultElement = document.createElement('div');
+                        resultElement.classList.add('resultSquare');
+                        resultElement.textContent = result;
+                        resultElement.addEventListener('click', () => openModal(result));
+                        searchResultsContainer.appendChild(resultElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching default results:', error));
+        }
+
+        // Fonction pour ouvrir la boîte modale
+        function openModal(result) {
+            // TODO: Récupérer la liste des rendus et évaluations pour le résultat sélectionné
+            const mockData = ['Rendu 1', 'Rendu 2', 'Évaluation 1', 'Évaluation 2'];
+
+            // Afficher la boîte modale
+            modal.style.display = 'flex';
+
+            // Remplir la liste dans la boîte modale
+            modalList.innerHTML = '';
+            mockData.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = item;
+                modalList.appendChild(listItem);
+            });
+        }
+
+        // Fermer la boîte modale lorsque l'utilisateur clique en dehors de la boîte modale
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Fermer la boîte modale lorsque l'utilisateur clique sur la croix
+        const closeBtn = document.querySelector('.close');
+        if (closeBtn) {
+            closeBtn.onclick = function() {
+                modal.style.display = 'none';
+            };
+        }
+
+        // Appel pour afficher les résultats par défaut au chargement de la page
+        displayDefaultResults();
+
+        // Écoute les changements dans l'input de recherche
+        searchInput.addEventListener('input', function() {
+            // Si la recherche contient au moins 3 caractères
+            if (searchInput.value.length >= 3) {
+                // Effectue la recherche
+                performSearch();
+            } else {
+                // Efface les résultats si la recherche est trop courte
+                searchResultsContainer.innerHTML = '';
+            }
+        });
+
+        // Écoute le clic sur le bouton de recherche
+        searchButton.addEventListener('click', function() {
+            // Effectue la recherche
+            performSearch();
+        });
+    </script>
+{% endblock %}

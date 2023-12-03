@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <div class="slider-container">
+        <div class="slide">
+            <img class="IUT" src="{{ asset('images/IUTTroyes.jpg') }}" alt="IUT batiment 1">
+            <div class="caption">
+                <h1>Rendu IUT Troyes</h1>
+            </div>
+        </div>
+        <div class="slide">
+            <img class="IUT" src="{{ asset('images/IUTLyon.jpg') }}" alt="IUT batiment 2">
+            <div class="caption">
+                <h1>Rendu IUT Lyon</h1>
+            </div>
+        </div>
+
+        <div class="slide">
+            <img class="IUT" src="{{ asset('images/IUTMulhouse.jpg') }}" alt="IUT batiment 3">
+            <div class="caption">
+                <h1>Rendu IUT Mulhouse</h1>
+            </div>
+        </div>
+
+        <!-- Ajoutez d'autres slides au besoin -->
+    
+        <!-- Ajoutez des flèches pour la navigation -->
+        <div class="navigation">
+            <div class="prev">&#10094;</div>
+            <div class="next">&#10095;</div>
+        </div>
+    </div>
+
+    
+        <div id="searchContainer">
+        {# Utilisation des variables term et date transmises depuis la page d'accueil #}
+        <input type="text" id="searchInput" placeholder="Rechercher..." style="border-radius: 10px; padding: 10px; width: 70%;">
+        <button id="searchButton" style="border-radius: 50%; padding: 10px; background-color: #333; color: #fff;">
+            <span>&#128269;</span>
+        </button>
+        </div>
+
+
+    <script>
+        var searchButton = document.getElementById("searchButton");
+        var searchInput = document.getElementById('searchInput');
+
+        searchButton.addEventListener("click", function() {
+            // Rediriger vers la page spécifiée avec les valeurs des champs
+            window.location.href = "{{ path('app_recherche') }}?term=" + searchInput.value;
+        });
+    </script>
+{% endblock %}

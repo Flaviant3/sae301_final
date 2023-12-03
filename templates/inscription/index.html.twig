@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre Titre Ici{% endblock %}
+
+{% block body %}
+    <div class="form-container">
+        <div class="input-container1" id="nomInputContainer">
+            <input type="text" placeholder="Nom" id="nomInput">
+            <input type="text" placeholder="Prénom" id="prenomInput">
+        </div>
+
+        <div class="input-container" id="emailInputContainer">
+            <input type="text" placeholder="Email" id="emailInput">
+        </div>
+
+        <div class="password-container">
+            <div class="input-container" id="passwordInputContainer">
+                <input type="password" placeholder="Mot de passe" id="passwordInput">
+            </div>
+        </div>
+
+        <div class="password-container">
+            <div class="input-container" id="confirmPasswordInputContainer">
+                <input type="password" placeholder="Confirmer le mot de passe" id="confirmPasswordInput">
+                <div class="feedback-icon" id="confirmPasswordFeedback">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+        function validateConfirmPassword() {
+            const confirmPasswordValue = confirmPasswordInput.value;
+            const passwordValue = passwordInput.value;
+
+            const isValid = confirmPasswordValue === passwordValue && confirmPasswordValue !== '';
+
+            setValidationStatus(confirmPasswordInputContainer, confirmPasswordFeedback, isValid);
+        }
+
+        function setValidationStatus(container, feedback, isValid) {
+            if (isValid) {
+                container.classList.remove('invalid');
+                container.classList.add('valid');
+                feedback.querySelector('.invalid').style.display = 'none';
+                feedback.querySelector('.valid').style.display = 'block';
+            } else {
+                container.classList.remove('valid');
+                container.classList.add('invalid');
+                feedback.querySelector('.valid').style.display = 'none';
+                feedback.querySelector('.invalid').style.display = 'block';
+            }
+        }
+    </script>
+{% endblock %}

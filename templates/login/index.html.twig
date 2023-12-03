@@ -1,0 +1,28 @@
+{# templates/connexion/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <h1>Connexion</h1>
+    <div class="form-container">
+        {{ form_start(form) }}
+        <div class="input-container" id="emailInputContainer">
+            {{ form_row(form.email) }}
+        </div>
+        <div class="password-container">
+            <div class="input-container" id="passwordInputContainer">
+                {{ form_row(form.password) }}
+            </div>
+        </div>
+        <div class="connecter"> <button type="submit">Se connecter</button></div>
+        {{ form_end(form) }}
+        <div class="inscrivez"><a href="{{ path('app_inscription') }}">Vous n'avez pas encore de compte, Inscrivez-vous</a></div>
+        {% if error is defined %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+       {% endif %}
+    </div>
+{% endblock %}

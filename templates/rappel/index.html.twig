@@ -1,0 +1,192 @@
+{# templates/rappel/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Rappel{% endblock %}
+
+{% block body %}
+    <style>
+        .reminder-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .reminder-column {
+            flex: 1;
+        }
+
+        .reminder {
+            background-color: #f8f8f8;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            width: 80%;
+            margin-left: 10%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reminder:hover {
+            background-color: #e0e0e0;
+        }
+
+        .reminder-submission {
+            border: 2px solid #ccc;
+        }
+
+        .reminder-evaluation {
+            border: 2px solid #ccc;
+        }
+
+        .column-title-container {
+            background-color: #ddd;
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .column-title {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        /* Style de la boîte de dialogue modale (pop-up) */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .popup-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .popup-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .popup-date {
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .popup-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .popup-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const reminders = document.querySelectorAll('.reminder');
+
+            reminders.forEach(function (element) {
+                element.addEventListener('click', function () {
+                    const title = element.querySelector('p:first-child').textContent;
+                    const date = element.querySelector('p:nth-child(2)').textContent;
+                    const description = element.dataset.description;
+
+                    // Créer une boîte de dialogue modale (pop-up)
+                    const modal = document.createElement('div');
+                    modal.classList.add('modal');
+
+                    // Contenu de la pop-up
+                    const popupContent = document.createElement('div');
+                    popupContent.classList.add('popup-content');
+                    popupContent.innerHTML = `
+                        <h2 class="popup-title">${title}</h2>
+                        <p class="popup-description">${description}</p>
+                        <p class="popup-date">Date : ${date}</p>
+                        <div class="popup-buttons">
+                            <button class="popup-button" onclick="closeModal()">Fermer</button>
+                            <button class="popup-button">Collaborer</button>
+                            <button class="popup-button">Partager</button>
+                        </div>
+                    `;
+
+                    modal.appendChild(popupContent);
+
+                    document.body.appendChild(modal);
+
+                    // Fonction pour fermer la pop-up
+                    window.closeModal = function () {
+                        document.body.removeChild(modal);
+                    };
+                });
+            });
+        });
+    </script>
+
+    <h1></h1>
+
+    <div class="reminder-container">
+        {# Rappels pour les rendus de travaux #}
+        <div class="reminder-column">
+            <div class="column-title-container">
+                <h2 class="column-title">Rendus</h2>
+            </div>
+            {% for submission in upcomingSubmissions %}
+                <div class="reminder reminder-submission" data-description="{{ submission.description }}">
+                    <p>{{ submission.title }}</p>
+                    <p>Date limite : {{ submission.deadline|date('Y-m-d') }}</p>
+                </div>
+            {% endfor %}
+
+            {% if not upcomingSubmissions %}
+                <p>Aucun rappel pour les rendus.</p>
+            {% endif %}
+        </div>
+
+        {# Rappels pour les évaluations #}
+        <div class="reminder-column">
+            <div class="column-title-container">
+                <h2 class="column-title">Évaluations</h2>
+            </div>
+            {% for evaluation in upcomingEvaluations %}
+                <div class="reminder reminder-evaluation" data-description="{{ evaluation.description }}">
+                    <p>{{ evaluation.title }}</p>
+                    <p>Date : {{ evaluation.date|date('Y-m-d') }}</p>
+                </div>
+            {% endfor %}
+
+            {% if not upcomingEvaluations %}
+                <p>Aucun rappel pour les évaluations.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

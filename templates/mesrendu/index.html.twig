@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Rendus{% endblock %}
+
+{% block body %}
+    <style>
+        .rendu .icon {
+            position: absolute;
+            top: 5px; /* Ajustement vers le bas */
+            left: 5px; /* Ajustement vers la droite */
+            width: 20px;
+            height: 20px;
+            border-radius: 50%; /* Rendre l'icône ronde */
+            background-color: red; /* Fond rouge */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Couleur du texte */
+            font-size: 12px; /* Taille de la police */
+            cursor: pointer;
+        }
+
+        .rendu .iconn{
+            position: absolute;
+            bottom: 20px; /* Ajustement vers le haut */
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%; /* Rendre l'icône ronde */
+            background-color: red; /* Fond rouge */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Couleur du texte */
+            font-size: 12px; /* Taille de la police */
+            cursor: pointer;
+        }
+    </style>
+
+    <h1>Ajouter un rendu</h1>
+    <p style="text-align: center;">Appuyez sur ❌ si vous vous êtes trompés sur la date ou un autre champ !</p>
+    <br>
+    <div class="rendu-row">
+        <div class="rendu-rowajouter" id="nouveauRendu" style="margin-top: 1px;">
+            <form method="post" id="renduForm">
+                <label for="matiereRendu">Matière :</label>
+                <input type="text" id="matiereRendu" name="matiereRendu" style="margin-top: 4px;" required><br><br>
+
+                <label for="travail">Travail à faire :</label>
+                <input id="travail" name="travail" style="margin-top: 1px;" required></input><br><br>
+
+                <label for="dateRendu">Date :</label>
+                <input type="date" id="dateRendu" name="dateRendu" style="margin-top: 2px;" required><br><br>
+
+                <button type="submit" style="margin-top: 12px;">Ajouter</button>
+            </form>
+            <h2>Mes rendus</h2>
+            <div class="rendus-container"></div>
+        </div>
+    </div>
+
+    <script>
+        function supprimerRendus(element) {
+            var parentDiv = element.parentNode;
+            var key = parentDiv.getAttribute('data-key');
+            parentDiv.remove(); // Supprime l'élément du DOM
+
+            // Supprimer du localStorage
+            var rendus = JSON.parse(localStorage.getItem('rendus')) || [];
+            rendus.splice(key, 1);
+            localStorage.setItem('rendus', JSON.stringify(rendus));
+
+            // Mettre à jour les données dans la page
+            var renduElements = document.querySelectorAll('.rendu');
+            renduElements.forEach(function (el, index) {
+                el.setAttribute('data-key', index);
+            });
+        }
+
+        document.getElementById('renduForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var travailInput = document.getElementById('travail');
+            var matiereInput = document.getElementById('matiereRendu');
+            var dateInput = document.getElementById('dateRendu');
+
+            var travail = travailInput.value;
+            var matiere = matiereInput.value;
+            var date = dateInput.value;
+
+            var newRendu = {
+                'travail': travail,
+                'matiere': matiere,
+                'date': date
+            };
+
+            var rendus = JSON.parse(localStorage.getItem('rendus')) || [];
+            rendus.push(newRendu);
+            localStorage.setItem('rendus', JSON.stringify(rendus));
+
+            // Rafraîchir la liste des rendus affichés
+            afficherRendus();
+
+            // Réinitialiser le formulaire
+            travailInput.value = '';
+            matiereInput.value = '';
+            dateInput.value = '';
+        });
+
+        function afficherRendus() {
+            var rendus = JSON.parse(localStorage.getItem('rendus')) || [];
+            var rendusContainer = document.querySelector('.rendus-container');
+            rendusContainer.innerHTML = '';
+
+            rendus.forEach(function (rendu, index) {
+                var newRenduElement = document.createElement('div');
+                newRenduElement.classList.add('rendu');
+
+                var date = document.createElement('div');
+                date.classList.add('date');
+                date.textContent = rendu.date;
+
+                var description = document.createElement('p');
+                description.classList.add('Desc');
+                description.textContent = rendu.travail;
+
+
+                var matiere = document.createElement('div');
+                matiere.classList.add('ressource');
+                matiere.textContent = rendu.matiere;
+
+                var icon = document.createElement('div');
+                icon.classList.add('icon');
+                icon.textContent = '\u2716'; // Unicode pour la croix
+                icon.onclick = function () {
+                    supprimerRendus(icon);
+                };
+
+                newRenduElement.appendChild(date);
+                newRenduElement.appendChild(icon);
+                newRenduElement.appendChild(description);
+                newRenduElement.appendChild(matiere);
+                rendusContainer.appendChild(newRenduElement);
+            });
+        }
+
+        // Afficher les rendus au chargement de la page
+        afficherRendus();
+    </script>
+
+{% endblock %}

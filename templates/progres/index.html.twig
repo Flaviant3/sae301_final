@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de Progrès{% endblock %}
+
+{% block body %}
+    <style>
+        /* Styles pour l'icône */
+        .rendu .iconn{
+            position: absolute;
+            bottom: 5px; /* Ajustement vers le haut */
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%; /* Rendre l'icône ronde */
+            background-color: red; /* Fond rouge */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Couleur du texte */
+            font-size: 12px; /* Taille de la police */
+            cursor: pointer;
+        }
+
+        .rendu .iconnn{
+            position: absolute;
+            bottom: 20px; /* Ajustement vers le haut */
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%; /* Rendre l'icône ronde */
+            background-color: red; /* Fond rouge */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Couleur du texte */
+            font-size: 12px; /* Taille de la police */
+            cursor: pointer;
+        }
+    </style>
+
+    <h1>Page de Progrès</h1>
+    <p style="text-align: center;">Appuyez sur ✅ dès que vous avez fini votre rendu ou de réviser votre prochaine évaluation !</p>
+
+    <h2>Mes évaluations à réviser</h2>
+    <div class="evals-container"></div>
+
+    <h2>Mes rendus à finir</h2>
+    <div class="rendus-container2"></div>
+    <script>
+    function afficherRendus() {
+    var rendus = JSON.parse(localStorage.getItem('rendus')) || [];
+    var rendusContainer = document.querySelector('.rendus-container2');
+    rendusContainer.innerHTML = '';
+
+    rendus.forEach(function (rendu, index) {
+    var newRenduElement = document.createElement('div');
+    newRenduElement.classList.add('rendu');
+
+    var date = document.createElement('div');
+    date.classList.add('date');
+    date.textContent = rendu.date;
+
+    var description = document.createElement('p');
+    description.classList.add('Desc');
+    description.textContent = rendu.travail;
+
+    var validationIcon = document.createElement('div');
+    validationIcon.classList.add('iconnn');
+    validationIcon.style.backgroundColor = 'green'; // Fond vert
+    validationIcon.textContent = '\u2714'; // Unicode pour la coche
+    validationIcon.onclick = function () {
+        supprimerEvaluation(validationIcon);
+    };
+
+    var matiere = document.createElement('div');
+    matiere.classList.add('ressource');
+    matiere.textContent = rendu.matiere;
+
+    newRenduElement.appendChild(date);
+    newRenduElement.appendChild(description);
+    newRenduElement.appendChild(matiere);
+    newRenduElement.appendChild(validationIcon);
+    rendusContainer.appendChild(newRenduElement);
+    });
+    }
+
+    // Afficher les rendus au chargement de la page
+    afficherRendus();
+
+    function afficherEvaluations() {
+        var evaluations = JSON.parse(localStorage.getItem('evaluations')) || [];
+        var rendusContainer = document.querySelector('.evals-container');
+        rendusContainer.innerHTML = '';
+
+        evaluations.forEach(function (evaluation, index) {
+            var newRendu = document.createElement('div');
+            newRendu.classList.add('rendu');
+            newRendu.setAttribute('data-key', index);
+
+            var validationIcon = document.createElement('div');
+            validationIcon.classList.add('iconn');
+            validationIcon.style.backgroundColor = 'green'; // Fond vert
+            validationIcon.textContent = '\u2714'; // Unicode pour la coche
+            validationIcon.onclick = function () {
+                supprimerEvaluationn(validationIcon);
+            };
+
+
+            var date = document.createElement('div');
+            date.classList.add('date');
+            date.textContent = evaluation.date;
+
+            var matiere = document.createElement('div');
+            matiere.classList.add('ressource3');
+            matiere.textContent = evaluation.matiere;
+
+
+            newRendu.appendChild(date);
+            newRendu.appendChild(matiere);
+            newRendu.appendChild(validationIcon);
+            rendusContainer.appendChild(newRendu);
+        });
+    }
+
+    // Afficher les évaluations au chargement de la page
+    afficherEvaluations();
+
+    function supprimerEvaluationn(validationIcon) {
+        var parentDiv = validationIcon.parentNode;
+        var key = parentDiv.getAttribute('data-key');
+        parentDiv.remove(); // Supprime l'élément du DOM
+
+        // Supprimer du localStorage
+        var evaluations = JSON.parse(localStorage.getItem('evaluations')) || [];
+        evaluations.splice(key, 1);
+        localStorage.setItem('evaluations', JSON.stringify(evaluations));
+
+        // Mettre à jour les données dans la page
+        var renduElements = document.querySelectorAll('.rendu');
+        renduElements.forEach(function (el, index) {
+            el.setAttribute('data-key', index);
+        });
+    }
+
+    function supprimerEvaluation(validationIcon) {
+        var parentDiv = validationIcon.parentNode;
+        var key = parentDiv.getAttribute('data-key');
+        parentDiv.remove(); // Supprime l'élément du DOM
+
+        // Supprimer du localStorage
+        var rendus = JSON.parse(localStorage.getItem('rendus')) || [];
+        rendus.splice(key, 1);
+        localStorage.setItem('rendus', JSON.stringify(rendus));
+
+        // Mettre à jour les données dans la page
+        var renduElements = document.querySelectorAll('.rendu');
+        renduElements.forEach(function (el, index) {
+            el.setAttribute('data-key', index);
+        });
+    }
+    </script>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,534 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+    <style>
+        .box {
+            width: 2012px;
+            height: 1157px;
+        }
+
+        .box .zoning-PC-debut {
+            position: fixed;
+            width: 2044px;
+            height: 1157px;
+            top: 0;
+            left: 0;
+        }
+
+        .box .overlap-group {
+            position: relative;
+            width: 2012px;
+            height: 1157px;
+        }
+
+        .box .frame {
+            position: absolute;
+            width: 1992px;
+            height: 1135px;
+            top: 22px;
+            left: 0;
+            background-color: #ffffff;
+        }
+
+        .box .rectangle {
+            position: absolute;
+            width: 1920px;
+            height: 1080px;
+            top: 47px;
+            left: 37px;
+            background-color: #ffffff;
+        }
+
+        .box .div {
+            position: absolute;
+            width: 1920px;
+            height: 171px;
+            top: 47px;
+            left: 37px;
+            background-color: #ffffff;
+        }
+
+        .box .logo {
+            position: absolute;
+            width: 167px;
+            height: 237px;
+            top: 0;
+            left: 37px;
+        }
+
+        .box .img {
+            position: absolute;
+            width: 309px;
+            height: 83px;
+            top: 95px;
+            left: 1261px;
+            object-fit: cover;
+        }
+
+        .box .rectangle-2 {
+            position: absolute;
+            width: 309px;
+            height: 83px;
+            top: 95px;
+            left: 1594px;
+            object-fit: cover;
+        }
+
+        .box .text-wrapper {
+            position: absolute;
+            width: 229px;
+            height: 98px;
+            top: 83px;
+            left: 660px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 50px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-2 {
+            position: absolute;
+            width: 286px;
+            height: 98px;
+            top: 83px;
+            left: 909px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 50px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-3 {
+            position: absolute;
+            width: 297px;
+            height: 98px;
+            top: 83px;
+            left: 1265px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #ffffff;
+            font-size: 50px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-4 {
+            position: absolute;
+            width: 297px;
+            height: 98px;
+            top: 83px;
+            left: 1600px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #ffffff;
+            font-size: 50px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .rectangle-3 {
+            position: absolute;
+            width: 1920px;
+            height: 458px;
+            top: 218px;
+            left: 37px;
+            object-fit: cover;
+        }
+
+        .box .rectangle-4 {
+            position: absolute;
+            width: 1920px;
+            height: 263px;
+            top: 864px;
+            left: 37px;
+            object-fit: cover;
+        }
+
+        .box .rectangle-5 {
+            position: absolute;
+            width: 1021px;
+            height: 63px;
+            top: 707px;
+            left: 74px;
+            background-color: #e6e6e6;
+            border-radius: 20px;
+        }
+
+        .box .rectangle-6 {
+            position: absolute;
+            width: 404px;
+            height: 63px;
+            top: 707px;
+            left: 1186px;
+            background-color: #e6e6e6;
+            border-radius: 20px;
+        }
+
+        .box .rectangle-7 {
+            position: absolute;
+            width: 190px;
+            height: 71px;
+            top: 707px;
+            left: 1676px;
+            object-fit: cover;
+        }
+
+        .box .text-wrapper-5 {
+            position: absolute;
+            width: 404px;
+            height: 63px;
+            top: 707px;
+            left: 1144px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #00000099;
+            font-size: 50px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-6 {
+            position: absolute;
+            width: 581px;
+            height: 63px;
+            top: 707px;
+            left: 74px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #00000099;
+            font-size: 50px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .image {
+            width: 52px;
+            height: 52px;
+            top: 712px;
+            left: 1510px;
+            position: absolute;
+            object-fit: cover;
+        }
+
+        .box .image-removebg {
+            position: absolute;
+            width: 115px;
+            height: 115px;
+            top: 681px;
+            left: 1713px;
+            object-fit: cover;
+        }
+
+        .box .image-removebg-2 {
+            left: 1859px;
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            top: 410px;
+            object-fit: cover;
+        }
+
+        .box .image-removebg-3 {
+            left: 61px;
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            top: 410px;
+            object-fit: cover;
+        }
+
+        .box .rectangle-8 {
+            position: absolute;
+            width: 800px;
+            height: 82px;
+            top: 573px;
+            left: 61px;
+            background-color: #aabdff;
+            border-radius: 50px;
+        }
+
+        .box .text-wrapper-7 {
+            position: absolute;
+            width: 731px;
+            height: 49px;
+            top: 587px;
+            left: 96px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 50px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+            white-space: nowrap;
+        }
+
+        .box .rectangle-9 {
+            position: absolute;
+            width: 1920px;
+            height: 171px;
+            top: 956px;
+            left: 37px;
+            background-color: #ffffff;
+        }
+
+        .box .frame-2 {
+            position: absolute;
+            width: 167px;
+            height: 237px;
+            top: 908px;
+            left: 37px;
+        }
+
+        .box .image-2 {
+            width: 52px;
+            height: 52px;
+            top: 1032px;
+            left: 1411px;
+            position: absolute;
+            object-fit: cover;
+        }
+
+        .box .text-wrapper-8 {
+            position: absolute;
+            width: 332px;
+            height: 40px;
+            top: 982px;
+            left: 283px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 30px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-9 {
+            position: absolute;
+            width: 332px;
+            height: 40px;
+            top: 982px;
+            left: 1680px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 30px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-10 {
+            position: absolute;
+            width: 332px;
+            height: 40px;
+            top: 979px;
+            left: 1344px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 30px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-11 {
+            position: absolute;
+            width: 348px;
+            height: 40px;
+            top: 979px;
+            left: 587px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 30px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-12 {
+            position: absolute;
+            width: 348px;
+            height: 40px;
+            top: 979px;
+            left: 998px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 30px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .p {
+            position: absolute;
+            width: 332px;
+            height: 40px;
+            top: 1016px;
+            left: 204px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #7c7c7c;
+            font-size: 20px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-13 {
+            position: absolute;
+            width: 332px;
+            height: 40px;
+            top: 1013px;
+            left: 511px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #7c7c7c;
+            font-size: 20px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .text-wrapper-14 {
+            position: absolute;
+            width: 332px;
+            height: 40px;
+            top: 1018px;
+            left: 983px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #7c7c7c;
+            font-size: 20px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .element-rue-qu-bec {
+            position: absolute;
+            width: 332px;
+            height: 40px;
+            top: 1055px;
+            left: 219px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #7c7c7c;
+            font-size: 20px;
+            text-align: center;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+        .box .line {
+            position: absolute;
+            width: 1750px;
+            height: 1px;
+            top: 814px;
+            left: 109px;
+            object-fit: cover;
+        }
+
+        .box .image-removebg-4 {
+            position: absolute;
+            width: 150px;
+            height: 68px;
+            top: 1045px;
+            left: 1680px;
+            object-fit: cover;
+        }
+
+        .box .image-removebg-5 {
+            position: absolute;
+            width: 68px;
+            height: 68px;
+            top: 1045px;
+            left: 1846px;
+            object-fit: cover;
+        }
+
+        .box .image-3 {
+            width: 52px;
+            height: 52px;
+            top: 1032px;
+            left: 1346px;
+            position: absolute;
+            object-fit: cover;
+        }
+
+        .box .image-4 {
+            width: 69px;
+            height: 48px;
+            top: 1034px;
+            left: 1476px;
+            position: absolute;
+            object-fit: cover;
+        }
+    </style>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <link rel="stylesheet" href="globals.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+    <div class="box">
+        <div class="zoning-PC-debut">
+            <div class="overlap-group">
+                <div class="frame"></div>
+                <div class="rectangle"></div>
+                <div class="div"></div>
+                <img class="logo" src="img/logo-2.svg" />
+                <img class="img" src="img/rectangle-9.png" />
+                <img class="rectangle-2" src="img/rectangle-24.png" />
+                <div class="text-wrapper">Accueil</div>
+                <div class="text-wrapper-2">Recherche</div>
+                <div class="text-wrapper-3">Connexion</div>
+                <div class="text-wrapper-4">Inscription</div>
+                <img class="rectangle-3" src="img/rectangle-28.png" />
+                <img class="rectangle-4" src="img/rectangle-32.png" />
+                <div class="rectangle-5"></div>
+                <div class="rectangle-6"></div>
+                <img class="rectangle-7" src="img/rectangle-31.png" />
+                <div class="text-wrapper-5">28/01/2024</div>
+                <div class="text-wrapper-6">Recherchez un rendu...</div>
+                <img class="image" src="img/image-1.png" />
+                <img class="image-removebg" src="img/image-removebg-preview-30-1.png" />
+                <img class="image-removebg-2" src="img/image-removebg-preview-32-1.png" />
+                <img class="image-removebg-3" src="img/image-removebg-preview-32-2.png" />
+                <div class="rectangle-8"></div>
+                <div class="text-wrapper-7">RENDU IUT DE MULHOUSE</div>
+                <div class="rectangle-9"></div>
+                <img class="frame-2" src="img/frame.svg" />
+                <img class="image-2" src="img/image-3.png" />
+                <div class="text-wrapper-8">Contacts</div>
+                <div class="text-wrapper-9">Nos partenaires :</div>
+                <div class="text-wrapper-10">Réseaux Sociaux</div>
+                <div class="text-wrapper-11">Conditions D’utilisations</div>
+                <div class="text-wrapper-12">Mentions Légales</div>
+                <p class="p">+33 1 23 45 67 89</p>
+                <div class="text-wrapper-13">Lien vers nos CGU.</div>
+                <p class="text-wrapper-14">Lien vers nos Mentions Légales.</p>
+                <div class="element-rue-qu-bec">9 Rue Québec, 10430<br />Rosiéres-Près-Troyes</div>
+                <img class="line" src="img/line-1.svg" />
+                <img class="image-removebg-4" src="img/image-removebg-preview-33-1.png" />
+                <img class="image-removebg-5" src="img/image-removebg-preview-34-1.png" />
+                <img class="image-3" src="img/image-2.png" />
+                <img class="image-4" src="img/image-4.png" />
+            </div>
+        </div>
+    </div>
+    </body>
+    </html>
+{% endblock %}

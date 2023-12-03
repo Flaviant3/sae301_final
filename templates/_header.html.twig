@@ -1,0 +1,42 @@
+{% set user = app.request.getSession().get('user', {}) %}
+    {% if user.prenom is defined %}
+        <div class="nav-group-1">
+            <span>Bonjour, {{ user.prenom }} </span>
+        </div>
+    {% endif %}
+<div class="nav">
+    <div class="menu-btn" id="menu-btn">
+        <div class="menu-btn-burger"></div>
+        <div class="menu-btn-burger"></div>
+        <div class="menu-btn-burger"></div>
+    </div>
+    <ul class="nav-list" id="nav-list">
+        {% set user = app.request.getSession().get('user', {}) %}
+        {% if user is not empty %}
+            <li class="nav-group-1">
+                <a href="{{ path('app_accueil') }}">Accueil</a>
+            </li>
+            <li class="nav-group-2">
+                <a href="{{ path('app_recherche') }}">Recherche</a>
+            </li>
+            {% if user.prenom is defined %}
+                <li class="nav-group-2">
+                    <a href="{{ path('profil') }}">Profil</a>
+                </li>
+            {% endif %}
+        {% else %}
+            <li class="nav-group-1">
+                <a href="{{ path('app_accueil') }}">Accueil</a>
+            </li>
+            <li class="nav-group-2">
+                <a href="{{ path('app_recherche') }}">Recherche</a>
+            </li>
+            <li class="nav-group-3">
+                <a href="{{ path('app_login') }}">Connexion</a>
+            </li>
+            <li class="nav-group-3">
+                <a href="{{ path('app_inscription') }}">Inscription</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

@@ -1,0 +1,144 @@
+{# templates/meseval/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Evaluations{% endblock %}
+
+{% block body %}
+    <style>
+        /* Styles pour l'icône */
+
+        .rendu .icon {
+            position: absolute;
+            top: 5px; /* Ajustement vers le bas */
+            left: 5px; /* Ajustement vers la droite */
+            width: 20px;
+            height: 20px;
+            border-radius: 50%; /* Rendre l'icône ronde */
+            background-color: red; /* Fond rouge */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Couleur du texte */
+            font-size: 12px; /* Taille de la police */
+            cursor: pointer;
+        }
+
+        .rendu .iconn{
+            position: absolute;
+            bottom: 5px; /* Ajustement vers le haut */
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%; /* Rendre l'icône ronde */
+            background-color: red; /* Fond rouge */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Couleur du texte */
+            font-size: 12px; /* Taille de la police */
+            cursor: pointer;
+        }
+    </style>
+
+    <h1>Ajouter une évaluation</h1>
+    <p style="text-align: center;">Appuyez sur ❌ si vous vous êtes trompés sur la date ou un autre champ !</p>
+    <br>
+    <div class="rendu-row">
+        <div class="rendu-rowajouter" id="nouvelleEvaluation" style="margin-top: 1px;">
+            <form method="post" id="evaluationForm">
+                <label for="matiere">Matière :</label>
+                <input type="text" id="matiere" name="matiere" style="margin-top: 4px;" required><br><br>
+
+                <label for="date">Date :</label>
+                <input type="date" id="date" name="date" style="margin-top: 1px;" required><br><br>
+
+                <button type="submit" style="margin-top: 12px;">Ajouter</button>
+            </form>
+            <h2>Mes évaluations</h2>
+            <div class="rendus-container"></div>
+        </div>
+    </div>
+
+    <script>
+        function supprimerEvaluation(element) {
+            var parentDiv = element.parentNode;
+            var key = parentDiv.getAttribute('data-key');
+            parentDiv.remove(); // Supprime l'élément du DOM
+
+            // Supprimer du localStorage
+            var evaluations = JSON.parse(localStorage.getItem('evaluations')) || [];
+            evaluations.splice(key, 1);
+            localStorage.setItem('evaluations', JSON.stringify(evaluations));
+
+            // Mettre à jour les données dans la page
+            var renduElements = document.querySelectorAll('.rendu');
+            renduElements.forEach(function (el, index) {
+                el.setAttribute('data-key', index);
+            });
+        }
+
+        document.getElementById('evaluationForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var matiereInput = document.getElementById('matiere');
+            var dateInput = document.getElementById('date');
+
+            var matiere = matiereInput.value;
+            var date = dateInput.value;
+
+            var newEvaluation = {
+                'matiere': matiere,
+                'date': date
+            };
+
+            var evaluations = JSON.parse(localStorage.getItem('evaluations')) || [];
+            evaluations.push(newEvaluation);
+            localStorage.setItem('evaluations', JSON.stringify(evaluations));
+
+            // Rafraîchir la liste des évaluations affichées
+            afficherEvaluations();
+
+            // Réinitialiser le formulaire
+            matiereInput.value = '';
+            dateInput.value = '';
+        });
+
+        function afficherEvaluations() {
+            var evaluations = JSON.parse(localStorage.getItem('evaluations')) || [];
+            var rendusContainer = document.querySelector('.rendus-container');
+            rendusContainer.innerHTML = '';
+
+            evaluations.forEach(function (evaluation, index) {
+                var newRendu = document.createElement('div');
+                newRendu.classList.add('rendu');
+                newRendu.setAttribute('data-key', index);
+
+
+                var icon = document.createElement('div');
+                icon.classList.add('icon');
+                icon.textContent = '\u2716'; // Unicode pour la croix
+                icon.onclick = function () {
+                    supprimerEvaluation(icon);
+                };
+
+
+                var date = document.createElement('div');
+                date.classList.add('date');
+                date.textContent = evaluation.date;
+
+                var matiere = document.createElement('div');
+                matiere.classList.add('ressource3');
+                matiere.textContent = evaluation.matiere;
+
+                newRendu.appendChild(icon);
+                newRendu.appendChild(date);
+                newRendu.appendChild(matiere);
+                rendusContainer.appendChild(newRendu);
+            });
+        }
+
+        // Afficher les évaluations au chargement de la page
+        afficherEvaluations();
+    </script>
+{% endblock %}

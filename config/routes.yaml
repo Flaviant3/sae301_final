@@ -1,0 +1,39 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+search:
+    path: /search
+    controller: App\Controller\SearchController::search
+
+/register:
+    path: /inscription
+    controller: App\Controller\RegistrationController::index
+
+login:
+    path: /connexion
+    controller: App\Controller\ConnexionController::login
+
+logout:
+    path: /logout
+    controller: App\Controller\ProfilController::logout
+
+profil:
+    path: /profil
+    controller: 'App\Controller\ProfilController::index'
+
+update_profile:
+    path: /update-profile
+    controller: App\Controller\ProfilController::updateEmail
+    methods: [POST] # Spécifiez la méthode HTTP autorisée pour cette route
+
+update_mdp:
+    path: /update-mdp
+    controller: App\Controller\ProfilController::updateMDP
+    methods: [POST] # Spécifiez la méthode HTTP autorisée pour cette route
+
+update_photo:
+    path: /update-photo
+    controller: App\Controller\ProfilController::updatePhoto
